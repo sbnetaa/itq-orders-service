@@ -1,0 +1,240 @@
+openapi: 3.0.1
+info:
+  title: ITQ Order server API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+tags:
+  - name: Заказы
+    description: Создание и просмотр заказов
+paths:
+  /orders/create:
+    post:
+      operationId: createOrder
+      summary: Создание заказа
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequestSchema'
+      responses:
+        "201":
+          description: Заказ создан и сохранен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponseSchema"
+        "400":
+          description: Некорректно составлен запрос
+  "/orders/{id}":
+    get:
+      operationId: takeSingleOrder
+      summary: Получить один заказ по ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID заказа
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Заказ возвращен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponseSchema"
+        "404":
+          description: Заказ не найден
+  /orders/search:
+    post:
+      operationId: searchOrders
+      summary: Фильтрация, поиск заказов
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequestSchema'
+      responses:
+        "200":
+          description: Возвращен список заказов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponseSchema"
+        "400":
+          description: Некорректно составлен запрос
+components:
+  schemas:
+    OrderSchema:
+      description: Модель заказа
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          nullable: false
+        number:
+          type: string
+          maxLength: 13
+          nullable: false
+        cost:
+          type: integer
+          format: int32
+          nullable: false
+        date:
+          type: string
+          format: date
+          nullable: false
+        receiver:
+          type: string
+          nullable: false
+        address:
+          type: string
+          nullable: false
+        paymentType:
+          type: string
+          nullable: false
+        deliveryType:
+          type: string
+          nullable: false
+      required:
+        - id
+        - number
+        - cost
+        - date
+        - receiver
+        - address
+        - paymentType
+        - deliveryType
+    OrderDetailsSchema:
+      description: Модель деталей заказа
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          nullable: false
+        article:
+          type: integer
+          format: int32
+          nullable: false
+        title:
+          type: string
+          nullable: false
+        amount:
+          type: integer
+          format: int32
+          nullable: false
+        price:
+          type: integer
+          format: int32
+          nullable: false
+        orderId:
+          type: integer
+          format: int32
+          nullable: false
+      required:
+        - id
+        - article
+        - title
+        - amount
+        - price
+        - orderId
+    OrderRequestSchema:
+      description: Модель запроса к данным о заказах
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        article:
+          type: integer
+          format: int32
+        amount:
+          type: integer
+          format: int32
+        receiver:
+          type: string
+        address:
+          type: string
+        paymentType:
+          type: string
+        deliveryType:
+          type: string
+        sum:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date
+        dateFrom:
+          type: string
+          format: date
+        dateTo:
+          type: string
+          format: date
+    OrderResponseSchema:
+      description: Модель ответа по данным о заказах
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        number:
+          type: string
+          nullable: false
+        title:
+          type: string
+          nullable: false
+        cost:
+          type: integer
+          format: int32
+          nullable: false
+        date:
+          type: string
+          format: date
+          nullable: false
+        receiver:
+          type: string
+          nullable: false
+        address:
+          type: string
+          nullable: false
+        paymentType:
+          type: string
+          nullable: false
+        deliveryType:
+          type: string
+          nullable: false
+        article:
+          type: integer
+          format: int32
+          nullable: false
+        amount:
+          type: integer
+          format: int32
+          nullable: false
+        price:
+          type: integer
+          format: int32
+          nullable: false
+      required:
+        - number
+        - title
+        - cost
+        - date
+        - receiver
+        - address
+        - paymentType
+        - deliveryType
+        - article
+        - amount
+        - price
+
+
