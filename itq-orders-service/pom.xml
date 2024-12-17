@@ -150,7 +150,7 @@
 <!--			</resource>-->
 <!--		</resources>-->
 <!--		<sourceDirectory>src/main/java</sourceDirectory>-->
-		<testSourceDirectory>target/generated-sources/openapi/src/test/java</testSourceDirectory>
+<!--		<testSourceDirectory>target/generated-sources/openapi/src/test/java</testSourceDirectory>-->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

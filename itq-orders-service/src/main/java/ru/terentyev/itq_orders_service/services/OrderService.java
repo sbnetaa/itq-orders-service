@@ -1,12 +1,12 @@
 package ru.terentyev.itq_orders_service.services;
 
-import ru.terentyev.itq_orders_service.entities.OrderRequest;
-import ru.terentyev.itq_orders_service.entities.OrderResponse;
+import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;
+import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 
 import java.util.List;
 
 public interface OrderService {
-    OrderResponse createOrder(OrderRequest request);
-    OrderResponse takeSingleOrder(Long id);
-    List<OrderResponse> search(OrderRequest request);
+    OrderResponseSchema createOrder(OrderRequestSchema request);
+    OrderResponseSchema takeSingleOrder(Long id);
+    List<OrderResponseSchema> search(OrderRequestSchema request);
 }

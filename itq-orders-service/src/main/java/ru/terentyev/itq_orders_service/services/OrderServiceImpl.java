@@ -11,10 +11,11 @@ import ru.terentyev.itq_orders_service.exceptions.ProductNotExistsException;
 import ru.terentyev.itq_orders_service.repositories.OrderDetailsRepository;
 import ru.terentyev.itq_orders_service.repositories.OrderRepository;
 import ru.terentyev.itq_orders_service.repositories.ProductRepository;
+import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;
+import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponse createOrder(OrderRequest request) {
+    public OrderResponseSchema createOrder(OrderRequestSchema request) {
         Product product = productRepository.findByArticle(request.getArticle());
         if (product == null) {
             throw new ProductNotExistsException(request.getArticle());
@@ -54,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponse> search(OrderRequest request) {
+    public List<OrderResponseSchema> search(OrderRequestSchema request) {
         Map<Order, OrderDetails> orderMap;
         if (request.getSum() != null) {
             orderMap = orderRepository.searchBySumAndDate(request.getSum(), request.getDate());
@@ -63,12 +64,12 @@ public class OrderServiceImpl implements OrderService {
         } else {
             throw new RuntimeException("Некорректный запрос на поиск");
         }
-        List<OrderResponse> responseList = new ArrayList<>();
+        List<OrderResponseSchema> responseList = new ArrayList<>();
         orderMap.forEach((o, od) -> responseList.add(mapToOrderResponse(o, od)));
         return responseList;
     }
 
-    private Order mapToOrder(OrderRequest request, Product product) {
+    private Order mapToOrder(OrderRequestSchema request, Product product) {
         Order newOrder = new Order();
         newOrder.setNumber(String.valueOf((int) (Math.random() * 100000))); // TODO
         newOrder.setCost(product.getPrice() * request.getAmount());
@@ -80,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
         return newOrder;
     }
 
-    private OrderDetails mapToOrderDetails(Order order, OrderRequest request, Product product) {
+    private OrderDetails mapToOrderDetails(Order order, OrderRequestSchema request, Product product) {
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setOrderId(order.getId());
         orderDetails.setAmount(request.getAmount());

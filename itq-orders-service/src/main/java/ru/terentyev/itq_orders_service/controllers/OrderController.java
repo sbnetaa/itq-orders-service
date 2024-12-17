@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.terentyev.itq_orders_service.entities.OrderRequest;
+import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;
 import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 import ru.terentyev.itq_orders_service.services.OrderService;
 import ru.terentyev.itq_orders_service.api.OrdersApi;
@@ -28,12 +28,12 @@ public class OrderController extends AbstractController implements OrdersApi {
         this.orderService = orderService;
     }
 
-//    @Override
+    @Override
     @PostMapping("/create")
-    public ResponseEntity<OrderResponseSchema> createOrder(@RequestBody OrderRequest request){
+    public ResponseEntity<OrderResponseSchema> createOrder(@RequestBody OrderRequestSchema request){
         return new ResponseEntity<>(orderService.createOrder(request), HttpStatus.CREATED);
     }
-//    @Override
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponseSchema> takeSingleOrder(@PathVariable Long id) {
         return new ResponseEntity<>(orderService.takeSingleOrder(id), HttpStatus.OK);
@@ -43,9 +43,9 @@ public class OrderController extends AbstractController implements OrdersApi {
     * В ТЗ указано "3. Получение заказа за заданную дату и больше заданной общей суммы заказа",
     * но таких заказов может быть несколько, поэтому сделал возврат списка
     */
-//    @Override
+    @Override
     @PostMapping("/search")
-    public ResponseEntity<List<? extends OrderResponseSchema>> search(@RequestBody OrderRequest request) {
+    public ResponseEntity<List<OrderResponseSchema>> searchOrders(@RequestBody OrderRequestSchema request) {
         return new ResponseEntity<>(orderService.search(request), HttpStatus.OK);
     }
 }
