@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.terentyev.itq_orders_service.entities.OrderRequest;
-import ru.terentyev.itq_orders_service.entities.OrderResponse;
+import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 import ru.terentyev.itq_orders_service.services.OrderService;
-//import ru.terentyev.itq_orders_service.api.OrdersApi;
+import ru.terentyev.itq_orders_service.api.OrdersApi;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
         , consumes = MediaType.APPLICATION_JSON_VALUE
         , headers = "Accept=application/json")
 @RestController
-public class OrderController extends AbstractController  {
+public class OrderController extends AbstractController implements OrdersApi {
 
     private final OrderService orderService;
 
@@ -28,13 +28,14 @@ public class OrderController extends AbstractController  {
         this.orderService = orderService;
     }
 
+//    @Override
     @PostMapping("/create")
-    public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest request){
+    public ResponseEntity<OrderResponseSchema> createOrder(@RequestBody OrderRequest request){
         return new ResponseEntity<>(orderService.createOrder(request), HttpStatus.CREATED);
     }
-
+//    @Override
     @GetMapping("/{id}")
-    public ResponseEntity<OrderResponse> takeSingleOrder(@PathVariable Long id) {
+    public ResponseEntity<OrderResponseSchema> takeSingleOrder(@PathVariable Long id) {
         return new ResponseEntity<>(orderService.takeSingleOrder(id), HttpStatus.OK);
     }
 
@@ -42,8 +43,9 @@ public class OrderController extends AbstractController  {
     * В ТЗ указано "3. Получение заказа за заданную дату и больше заданной общей суммы заказа",
     * но таких заказов может быть несколько, поэтому сделал возврат списка
     */
+//    @Override
     @PostMapping("/search")
-    public ResponseEntity<List<OrderResponse>> search(@RequestBody OrderRequest request) {
+    public ResponseEntity<List<? extends OrderResponseSchema>> search(@RequestBody OrderRequest request) {
         return new ResponseEntity<>(orderService.search(request), HttpStatus.OK);
     }
 }
