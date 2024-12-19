@@ -7,7 +7,6 @@ import ru.terentyev.itq_orders_service.entities.Order;
 import ru.terentyev.itq_orders_service.entities.OrderDetails;
 
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -46,7 +45,7 @@ public class OrderRepository extends AbstractRepository {
         return orderMap;
     }
 
-    public Map<Order, OrderDetails> searchByArticleMissingAndDate(Integer article, LocalDate dateFrom, LocalDate dateTo) {
+    public Map<Order, OrderDetails> searchByArticleAndMissingAndDate(Integer article, LocalDate dateFrom, LocalDate dateTo) {
         orderMap.clear();
         String sql = "SELECT o.id AS oid, o.*, od.* FROM orders o FULL JOIN order_details od ON" +
                 " o.id = od.order_id WHERE od.article != ? AND o.date BETWEEN ? AND ?";
@@ -71,7 +70,7 @@ public class OrderRepository extends AbstractRepository {
         }
     }
 
-    private static class MixedRowMapper implements RowMapper<Void> {
+    public static class MixedRowMapper implements RowMapper<Void> {
 
         private final OrderRowMapper orderRowMapper = new OrderRowMapper();
         private final OrderDetailsRepository.OrderDetailsRowMapper detailsRowMapper = new OrderDetailsRepository.OrderDetailsRowMapper();

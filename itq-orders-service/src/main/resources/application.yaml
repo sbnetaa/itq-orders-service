@@ -17,3 +17,8 @@ logging:
 springdoc:
   api-docs:
     yaml: true
+---
+itq:
+  numbers-service:
+    url: localhost
+    port: 8081

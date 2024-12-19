@@ -18,7 +18,9 @@ import ru.terentyev.itq_orders_service.repositories.OrderDetailsRepository;
 import ru.terentyev.itq_orders_service.repositories.ProductRepository;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -135,7 +137,7 @@ public class OrderServiceImplTest {
         orderDetails.setOrderId(order.getId());
         Map<Order, OrderDetails> orderMap = new HashMap<>();
         orderMap.put(order, orderDetails);
-        when(orderRepository.searchByArticleMissingAndDate(request.getArticle(), request.getDateFrom(), request.getDateTo()))
+        when(orderRepository.searchByArticleAndMissingAndDate(request.getArticle(), request.getDateFrom(), request.getDateTo()))
                 .thenReturn(orderMap);
         List<OrderResponseSchema> responseList = orderService.search(request);
         assertThat(responseList).isNotEmpty();

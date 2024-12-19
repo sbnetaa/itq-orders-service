@@ -4,12 +4,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import ru.terentyev.itq_orders_service.entities.OrderDetails;
-import ru.terentyev.itq_orders_service.entities.OrderResponse;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
 
 @Repository
 public class OrderDetailsRepository extends AbstractRepository {

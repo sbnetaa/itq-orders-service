@@ -1,10 +1,12 @@
 package ru.terentyev.itq_orders_service.services;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
+import ru.terentyev.itq_orders_service.entities.NumberObject;
 import ru.terentyev.itq_orders_service.entities.Order;
 import ru.terentyev.itq_orders_service.entities.OrderDetails;
-import ru.terentyev.itq_orders_service.entities.OrderRequest;
 import ru.terentyev.itq_orders_service.entities.OrderResponse;
 import ru.terentyev.itq_orders_service.entities.Product;
 import ru.terentyev.itq_orders_service.exceptions.ProductNotExistsException;
@@ -25,15 +27,19 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailsRepository orderDetailsRepository;
     private final ProductRepository productRepository;
-    private final WebClient webClient;
+    private final RestTemplate restTemplate;
+    @Value("${itq.numbers-service.url}")
+    private String numbersServiceUrl;
+    @Value("${itq.numbers-service.port}")
+    private String numbersServicePort;
 
     public OrderServiceImpl(OrderRepository orderRepository
             , OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository
-            , WebClient.Builder webClientBuilder) {
+            , RestTemplate restTemplate) {
         this.orderRepository = orderRepository;
         this.orderDetailsRepository = orderDetailsRepository;
         this.productRepository = productRepository;
-        this.webClient = webClientBuilder.build();
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -60,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         if (request.getSum() != null) {
             orderMap = orderRepository.searchBySumAndDate(request.getSum(), request.getDate());
         } else if (request.getArticle() != null) {
-            orderMap = orderRepository.searchByArticleMissingAndDate(request.getArticle(), request.getDateFrom(), request.getDateTo());
+            orderMap = orderRepository.searchByArticleAndMissingAndDate(request.getArticle(), request.getDateFrom(), request.getDateTo());
         } else {
             throw new RuntimeException("Некорректный запрос на поиск");
         }
@@ -69,9 +75,16 @@ public class OrderServiceImpl implements OrderService {
         return responseList;
     }
 
+    private NumberObject requestNumber() {
+        String url = "http://" + numbersServiceUrl + ":"
+                + numbersServicePort + "/api/v1/numbers/generate";
+        ResponseEntity<NumberObject> response = restTemplate.getForEntity(url, NumberObject.class);
+        return response.getBody();
+    }
+
     private Order mapToOrder(OrderRequestSchema request, Product product) {
         Order newOrder = new Order();
-        newOrder.setNumber(String.valueOf((int) (Math.random() * 100000))); // TODO
+        newOrder.setNumber(requestNumber().getNumber()); // TODO
         newOrder.setCost(product.getPrice() * request.getAmount());
         newOrder.setAddress(request.getAddress());
         newOrder.setDate(LocalDate.now());
