@@ -1,0 +1,85 @@
+services:
+  orders-service:
+    container_name: orders-service-container
+    build:
+      context: ../itq-orders-service/itq-orders-service
+    depends_on:
+      db-orders:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - itq-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-orders:5432/itq-orders-database
+      SPRING_DATASOURCE_USERNAME: itq-user
+      SPRING_DATASOURCE_PASSWORD: itq-password
+      ITQ_NUMBERS_HOST: numbers-service
+
+  numbers-service:
+    container_name: numbers-service-container
+    build:
+      context: ../itq-number-generate-service/itq-number-generate-service
+    depends_on:
+      db-numbers:
+        condition: service_healthy
+    environment:
+      SPRING_MONGODB_URI: mongodb://itq-user:itq-password@db-numbers:27017/itq-numbers-db?authSource=admin
+      SPRING_DATA_MONGODB_HOST: db-numbers
+    ports:
+      - "8081:8081"
+    networks:
+      - itq-network
+
+  db-orders:
+    container_name: orders-db-container
+    image: postgres:15
+    environment:
+      POSTGRES_DB: itq-orders-database
+      POSTGRES_USER: itq-user
+      POSTGRES_PASSWORD: itq-password
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-d", "itq-orders-database", "-U", "itq-user" ]
+      interval: 20s
+      timeout: 20s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - orders-data:/var/lib/postgresql/data
+    networks:
+      - itq-network
+
+  db-numbers:
+    container_name: numbers-db-container
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: itq-user
+      MONGO_INITDB_ROOT_PASSWORD: itq-password
+      MONGO_INITDB_DATABASE: itq-numbers-db
+      MONGO_DB_USERNAME: itq-user
+      MONGO_DB_PASSWORD: itq-password
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })" ]
+      interval: 20s
+      timeout: 20s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 4096M
+        reservations:
+          memory: 4096M
+    volumes:
+      - numbers-data:/data/db
+    networks:
+      - itq-network
+
+networks:
+  itq-network:
+
+volumes:
+  orders-data:
+  numbers-data:

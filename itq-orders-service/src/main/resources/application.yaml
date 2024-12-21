@@ -2,9 +2,9 @@ spring:
   application:
     name: itq-orders-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/itq-orders
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db-orders:5432/itq-orders-database}
+    username: ${SPRING_DATASOURCE_USERNAME:itq-user}
+    password: ${SPRING_DATASOURCE_PASSWORD:itq-password}
     driver-class-name: org.postgresql.Driver
 ---
 logging:
@@ -20,5 +20,5 @@ springdoc:
 ---
 itq:
   numbers-service:
-    url: localhost
+    url: ${ITQ_NUMBERS_HOST:localhost}
     port: 8081
