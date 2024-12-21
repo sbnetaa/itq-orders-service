@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.reactive.function.client.WebClient;
 import ru.terentyev.itq_orders_service.entities.ErrorResponse;
 
 import java.time.LocalDateTime;

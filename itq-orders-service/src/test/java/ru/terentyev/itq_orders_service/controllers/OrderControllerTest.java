@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import ru.terentyev.itq_orders_service.entities.OrderRequest;
 import ru.terentyev.itq_orders_service.entities.OrderResponse;
 import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;

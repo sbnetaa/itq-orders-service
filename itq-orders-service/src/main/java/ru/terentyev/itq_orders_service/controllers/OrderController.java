@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.terentyev.itq_orders_service.api.OrdersApi;
 import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;
 import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 import ru.terentyev.itq_orders_service.services.OrderService;
-import ru.terentyev.itq_orders_service.api.OrdersApi;
 
 import java.util.List;
 

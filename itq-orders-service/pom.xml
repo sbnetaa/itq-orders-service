@@ -30,18 +30,7 @@
 	<properties>
 		<java.version>23</java.version>
 	</properties>
-<!--	<repositories>-->
-<!--		<repository>-->
-<!--			<id>maven-central</id>-->
-<!--			<url>https://repo.maven.apache.org/maven2</url>-->
-<!--		</repository>-->
-<!--	</repositories>-->
 	<dependencies>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework</groupId>-->
-<!--			<artifactId>spring-webflux</artifactId>-->
-<!--			<version>6.2.1</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
@@ -84,72 +73,23 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.openapitools</groupId>-->
-<!--			<artifactId>openapi-generator-maven-plugin</artifactId>-->
-<!--			<version>7.10.0</version>-->
-<!--			<scope>provided</scope>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
 			<version>1.6.14</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.apache.maven.plugins</groupId>-->
-<!--			<artifactId>maven-compiler-plugin</artifactId>-->
-<!--			<version>3.13.0</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>0.2.6</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springdoc</groupId>-->
-<!--			<artifactId>springdoc-openapi-ui</artifactId>-->
-<!--			<version>1.8.0</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 			<version>2.7.0</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.springfox</groupId>-->
-<!--			<artifactId>springfox-boot-starter</artifactId>-->
-<!--			<version>3.0.0</version>-->
-<!--		</dependency>-->
-
-		<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-web</artifactId>-->
-<!--			<version>3.4.0</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>io.swagger.core.v3</groupId>-->
-<!--			<artifactId>swagger-annotations</artifactId>-->
-<!--			<version>2.2.4</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>io.swagger.core.v3</groupId>-->
-<!--			<artifactId>swagger-core</artifactId>-->
-<!--			<version>2.2.4</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>io.swagger.core.v3</groupId>-->
-<!--			<artifactId>swagger-models</artifactId>-->
-<!--			<version>2.2.4</version>-->
-<!--		</dependency>-->
 	</dependencies>
 	<build>
-<!--		<resources>-->
-<!--			<resource>-->
-<!--				<directory>src/main/resources</directory>-->
-<!--			</resource>-->
-<!--		</resources>-->
-<!--		<sourceDirectory>src/main/java</sourceDirectory>-->
-<!--		<testSourceDirectory>target/generated-sources/openapi/src/test/java</testSourceDirectory>-->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -193,7 +133,6 @@
 							<generateModels>true</generateModels>
 							<generateApiTests>false</generateApiTests>
 							<generateModelTests>false</generateModelTests>
-<!--							<ignoreFileOverride>.openapi-generator-ignore</ignoreFileOverride>-->
 							<apiPackage>ru.terentyev.itq_orders_service.api</apiPackage>
 							<modelPackage>ru.terentyev.itq_orders_service.schemas</modelPackage>
 						</configuration>

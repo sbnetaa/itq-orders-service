@@ -7,15 +7,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;
-import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 import ru.terentyev.itq_orders_service.entities.Order;
 import ru.terentyev.itq_orders_service.entities.OrderDetails;
 import ru.terentyev.itq_orders_service.entities.Product;
 import ru.terentyev.itq_orders_service.exceptions.ProductNotExistsException;
-import ru.terentyev.itq_orders_service.repositories.OrderRepository;
 import ru.terentyev.itq_orders_service.repositories.OrderDetailsRepository;
+import ru.terentyev.itq_orders_service.repositories.OrderRepository;
 import ru.terentyev.itq_orders_service.repositories.ProductRepository;
+import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;
+import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 
 import java.time.LocalDate;
 import java.util.HashMap;
