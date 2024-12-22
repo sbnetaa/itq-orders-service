@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
 
     private Order mapToOrder(OrderRequestSchema request, Product product) {
         Order newOrder = new Order();
-        newOrder.setNumber(requestNumber().getNumber()); // TODO
+        newOrder.setNumber(requestNumber().getNumber());
         newOrder.setCost(product.getPrice() * request.getAmount());
         newOrder.setAddress(request.getAddress());
         newOrder.setDate(LocalDate.now());

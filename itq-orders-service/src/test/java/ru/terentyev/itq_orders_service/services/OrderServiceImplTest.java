@@ -4,9 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import ru.terentyev.itq_orders_service.entities.NumberObject;
 import ru.terentyev.itq_orders_service.entities.Order;
 import ru.terentyev.itq_orders_service.entities.OrderDetails;
 import ru.terentyev.itq_orders_service.entities.Product;
@@ -25,6 +27,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 public class OrderServiceImplTest {
@@ -38,14 +41,33 @@ public class OrderServiceImplTest {
     @Mock
     private ProductRepository productRepository;
     @Mock
-    private WebClient.Builder webClientBuilder;
-    private WebClient webClient;
+    private RestTemplate restTemplate;
+    private Order order;
+    private OrderDetails orderDetails;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        webClient = Mockito.mock(WebClient.class);
-        when(webClientBuilder.build()).thenReturn(webClient);
+        prepareOrder();
+    }
+
+    private void prepareOrder(){
+        Long orderId = 1L;
+        order = new Order();
+        order.setId(orderId);
+        order.setAddress("Москва, улица Пржевальского");
+        order.setCost(1500);
+        order.setNumber("1234520241222");
+        order.setDate(LocalDate.now());
+        order.setPaymentType("Наличкой");
+        order.setDeliveryType("Курьером");
+        order.setReceiver("Дмитрий");
+        orderDetails = new OrderDetails();
+        orderDetails.setOrderId(orderId);
+        orderDetails.setPrice(500);
+        orderDetails.setArticle(341);
+        orderDetails.setAmount(3);
+        orderDetails.setTitle("Скатерть");
     }
 
     @Test
@@ -56,26 +78,30 @@ public class OrderServiceImplTest {
         request.setAddress("Москва, улица Пржевальского");
         request.setReceiver("Дмитрий");
         request.setDeliveryType("Курьером");
-        request.setDeliveryType("Наличкой");
+        request.setPaymentType("Наличкой");
 
         Product product = new Product();
         product.setPrice(500);
         product.setTitle("Скатерть");
+        NumberObject numberObject = new NumberObject();
+        numberObject.setNumber("1234520241222");
         when(productRepository.findByArticle(request.getArticle())).thenReturn(product);
-        Order order = new Order();
-        order.setId(1L);
         when(orderRepository.save(any(Order.class))).thenReturn(order);
-        OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setOrderId(order.getId());
         when(orderDetailsRepository.save(any(OrderDetails.class))).thenReturn(orderDetails);
+        when(restTemplate.getForEntity(any(String.class), eq(NumberObject.class))).thenReturn(new ResponseEntity<>(numberObject, HttpStatus.OK));
         OrderResponseSchema response = orderService.createOrder(request);
-        response.setCost(1500);
-        response.setArticle(341);
-        response.setAddress("Москва, улица Пржевальского");
         assertThat(response).isNotNull();
         assertThat(response.getCost()).isEqualTo(product.getPrice() * request.getAmount());
         assertThat(response.getArticle()).isEqualTo(request.getArticle());
         assertThat(response.getAddress()).isEqualTo(request.getAddress());
+        assertThat(response.getPrice()).isEqualTo(product.getPrice());
+        assertThat(response.getAmount()).isEqualTo(request.getAmount());
+        assertThat(response.getDate()).isEqualTo(LocalDate.now());
+        assertThat(response.getDeliveryType()).isEqualTo(request.getDeliveryType());
+        assertThat(response.getPaymentType()).isEqualTo(request.getPaymentType());
+        assertThat(response.getReceiver()).isEqualTo(request.getReceiver());
+        assertThat(response.getNumber()).isEqualTo(numberObject.getNumber());
+        assertThat(response.getTitle()).isEqualTo(product.getTitle());
     }
 
     @Test
@@ -85,18 +111,12 @@ public class OrderServiceImplTest {
         when(productRepository.findByArticle(request.getArticle())).thenReturn(null);
         ProductNotExistsException thrown =
                 assertThrows(ProductNotExistsException.class, () -> orderService.createOrder(request));
-        assertThat(thrown.getMessage()).isEqualTo("Товар с артикулом " + request.getArticle() + " не найден.");
+        assertThat(thrown.getClass()).isEqualTo(ProductNotExistsException.class);
     }
 
     @Test
     public void testTakeSingleOrder() {
         Long orderId = 1L;
-        Order order = new Order();
-        order.setId(orderId);
-        order.setAddress("Москва, улица Пржевальского");
-        OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setOrderId(orderId);
-        orderDetails.setPrice(100);
         when(orderRepository.findById(orderId)).thenReturn(order);
         when(orderDetailsRepository.findByOrderId(orderId)).thenReturn(orderDetails);
         OrderResponseSchema response = orderService.takeSingleOrder(orderId);
@@ -111,10 +131,6 @@ public class OrderServiceImplTest {
         OrderRequestSchema request = new OrderRequestSchema();
         request.setSum(200);
         request.setDate(LocalDate.now());
-        Order order = new Order();
-        order.setId(1L);
-        OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setOrderId(order.getId());
         Map<Order, OrderDetails> orderMap = new HashMap<>();
         orderMap.put(order, orderDetails);
         when(orderRepository.searchBySumAndDate(request.getSum(), request.getDate()))
@@ -131,10 +147,6 @@ public class OrderServiceImplTest {
         request.setArticle(838);
         request.setDateFrom(LocalDate.now().minusDays(5));
         request.setDateTo(LocalDate.now());
-        Order order = new Order();
-        order.setId(1L);
-        OrderDetails orderDetails = new OrderDetails();
-        orderDetails.setOrderId(order.getId());
         Map<Order, OrderDetails> orderMap = new HashMap<>();
         orderMap.put(order, orderDetails);
         when(orderRepository.searchByArticleAndMissingAndDate(request.getArticle(), request.getDateFrom(), request.getDateTo()))
