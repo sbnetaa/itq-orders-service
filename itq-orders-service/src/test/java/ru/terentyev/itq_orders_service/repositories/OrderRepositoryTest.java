@@ -38,10 +38,10 @@ class OrderRepositoryTest {
         order.setNumber("123456");
         order.setCost(100);
         order.setDate(LocalDate.now());
-        order.setReceiver("Receiver Name");
-        order.setAddress("Receiver Address");
-        order.setPaymentType("CREDIT");
-        order.setDeliveryType("STANDARD");
+        order.setReceiver("Получатель");
+        order.setAddress("Адрес");
+        order.setPaymentType("Кредит");
+        order.setDeliveryType("Стандартный");
     }
 
     @Test
@@ -82,6 +82,11 @@ class OrderRepositoryTest {
         LocalDate dateTo = LocalDate.now();
         Map<Order, OrderDetails> result = orderRepository.searchByArticleAndMissingAndDate(article, dateFrom, dateTo);
         assertNotNull(result);
+        boolean resultsValid = result.entrySet().stream()
+                .allMatch(entry -> entry.getKey().getDate().isAfter(dateFrom)
+                        && entry.getKey().getDate().isBefore(dateTo)
+                        && entry.getValue().getArticle() == article);
+        assertTrue(resultsValid);
         verify(jdbcTemplate, times(1)).query(anyString(), any(OrderRepository.MixedRowMapper.class), eq(article), eq(dateFrom), eq(dateTo));
     }
 }
