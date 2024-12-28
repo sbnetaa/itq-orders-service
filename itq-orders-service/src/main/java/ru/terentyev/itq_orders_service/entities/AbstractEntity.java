@@ -1,8 +1,9 @@
 package ru.terentyev.itq_orders_service.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class AbstractEntity{
+public abstract class AbstractEntity implements Serializable {
     protected Long id;
 
     public Long getId() {

@@ -2,9 +2,10 @@ package ru.terentyev.itq_orders_service.entities;
 
 import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class OrderResponse extends OrderResponseSchema {
+public class OrderResponse extends OrderResponseSchema implements Serializable {
 
     @Override
     public boolean equals(Object o) {

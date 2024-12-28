@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:wicket="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать заказ</title>
+</head>
+<body>
+<div><a wicket:id="mainPageLink">На главную</a></div><br>
+
+<h3>Создать заказ</h3>
+<form wicket:id="form">
+    <div>Артикул: <input wicket:id="article" type="number"/></div>
+    <div>Количество: <input wicket:id="amount" type="number"/></div>
+    <div>Получатель: <input wicket:id="receiver" type="text"/></div>
+    <div>Адрес: <input wicket:id="address" type="text"/></div>
+    <div>Способ оплаты: <input wicket:id="paymentType" type="text"/></div>
+    <div>Способ доставки: <input wicket:id="deliveryType" type="text"/></div>
+    <div wicket:id="feedbackPanel"></div>
+    <button wicket:id="submitButton" type="submit">Создать</button>
+</form>
+<div>-----------------</div>
+<br><br>
+<div wicket:id="resultsPanel">
+</div>
+</body>
+</html>

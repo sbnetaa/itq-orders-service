@@ -3,10 +3,11 @@ package ru.terentyev.itq_orders_service.entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ErrorResponse extends AbstractEntity {
+public class ErrorResponse extends AbstractEntity implements Serializable {
 
     private String message;
     private LocalDateTime timestamp;

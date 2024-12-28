@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:wicket="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск в указанный период, исключая артикул</title>
+</head>
+<body>
+<div><a wicket:id="mainPageLink">На главную</a></div><br>
+<h3>Поиск в указанный период, исключая артикул</h3>
+<div>Формат даты: 28.12.2024</div>
+<div></div>
+<form wicket:id="form">
+    <div>Артикул: <input wicket:id="article" type="number"/></div>
+    <div>Период от: <input wicket:id="dateFrom" type="text"/></div>
+    <div>Период до: <input wicket:id="dateTo" type="text"/></div>
+    <div wicket:id="feedbackPanel"></div>
+    <button wicket:id="submitButton" type="submit">Поиск</button>
+</form>
+<div>-----------------</div>
+<br><br>
+<div wicket:id="resultsPanel">
+</div>
+</body>
+</html>

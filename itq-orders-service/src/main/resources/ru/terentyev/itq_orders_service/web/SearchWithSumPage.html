@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:wicket="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск по преывашающей сумме и указанной дате</title>
+</head>
+<body>
+<div><a wicket:id="mainPageLink">На главную</a></div><br>
+<h3>Поиск по преывашающей сумме и указанной дате</h3>
+<div>Формат даты: 28.12.2024</div>
+<div></div>
+<form wicket:id="form">
+    <div>Сумма: <input wicket:id="sum" type="number"/></div>
+    <div>Дата: <input wicket:id="date" type="text"/></div>
+    <div wicket:id="feedbackPanel"></div>
+    <button wicket:id="submitButton" type="submit">Поиск</button>
+</form>
+<div>-----------------</div>
+<br><br>
+<div wicket:id="resultsPanel">
+</div>
+</body>
+</html>

@@ -2,9 +2,10 @@ package ru.terentyev.itq_orders_service.entities;
 
 import ru.terentyev.itq_orders_service.schemas.OrderSchema;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Order extends OrderSchema {
+public class Order extends OrderSchema implements Serializable {
 
     @Override
     public boolean equals(Object o) {

@@ -1,8 +1,9 @@
 package ru.terentyev.itq_orders_service.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Product extends AbstractEntity {
+public class Product extends AbstractEntity implements Serializable {
     private String title;
     private Integer article;
     private Integer price;

@@ -1,6 +1,8 @@
 package ru.terentyev.itq_orders_service.entities;
 
-public class NumberObject {
+import java.io.Serializable;
+
+public class NumberObject implements Serializable {
 
     private String id;
     private String number;
