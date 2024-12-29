@@ -27,7 +27,7 @@ public class HomePage extends WebPage {
         Link<Void> findByIdLink = new Link<>("findByIdLink") {
             @Override
             public void onClick() {
-//                setResponsePage(FindByIdPage.class);
+                setResponsePage(FindByIdPage.class);
             }
         };
         add(createOrderLink);

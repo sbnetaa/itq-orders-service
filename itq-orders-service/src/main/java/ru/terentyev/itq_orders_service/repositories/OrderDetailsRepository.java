@@ -1,5 +1,6 @@
 package ru.terentyev.itq_orders_service.repositories;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -29,7 +30,11 @@ public class OrderDetailsRepository extends AbstractRepository {
 
     public OrderDetails findByOrderId(Long id) {
         String sql = "SELECT * FROM order_details WHERE order_id = ?";
-        return jdbcTemplate.queryForObject(sql, new OrderDetailsRowMapper(), id);
+        try {
+            return jdbcTemplate.queryForObject(sql, new OrderDetailsRowMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public static class OrderDetailsRowMapper implements RowMapper<OrderDetails> {

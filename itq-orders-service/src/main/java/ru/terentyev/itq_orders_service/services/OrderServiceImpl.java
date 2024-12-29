@@ -1,6 +1,7 @@
 package ru.terentyev.itq_orders_service.services;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -9,6 +10,7 @@ import ru.terentyev.itq_orders_service.entities.Order;
 import ru.terentyev.itq_orders_service.entities.OrderDetails;
 import ru.terentyev.itq_orders_service.entities.OrderResponse;
 import ru.terentyev.itq_orders_service.entities.Product;
+import ru.terentyev.itq_orders_service.exceptions.OrderNotExistsException;
 import ru.terentyev.itq_orders_service.exceptions.ProductNotExistsException;
 import ru.terentyev.itq_orders_service.repositories.OrderDetailsRepository;
 import ru.terentyev.itq_orders_service.repositories.OrderRepository;
@@ -55,8 +57,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse takeSingleOrder(Long id) {
-        Order order = orderRepository.findById(id);
-        OrderDetails orderDetails = orderDetailsRepository.findByOrderId(id);
+        Order order;
+        OrderDetails orderDetails;
+        order = orderRepository.findById(id);
+        orderDetails = orderDetailsRepository.findByOrderId(id);
+        if (order == null || orderDetails == null) {
+            throw new OrderNotExistsException(id);
+        }
         return mapToOrderResponse(order, orderDetails);
     }
 

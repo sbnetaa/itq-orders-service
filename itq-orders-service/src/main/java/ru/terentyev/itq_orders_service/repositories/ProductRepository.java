@@ -1,6 +1,7 @@
 package ru.terentyev.itq_orders_service.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,13 +18,13 @@ public class ProductRepository extends AbstractRepository {
 
     public ProductRepository(){}
 
-//    public ProductRepository(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//    }
-
     public Product findByArticle(Integer article) {
         String sql = "SELECT * FROM products WHERE article = ?";
-        return jdbcTemplate.queryForObject(sql, new ProductRowMapper(), article);
+        try {
+            return jdbcTemplate.queryForObject(sql, new ProductRowMapper(), article);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
 

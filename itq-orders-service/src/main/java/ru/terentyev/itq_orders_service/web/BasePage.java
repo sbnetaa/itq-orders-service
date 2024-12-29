@@ -6,7 +6,6 @@ import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -44,9 +43,14 @@ public abstract class BasePage extends WebPage {
         submitButton = new AjaxButton("submitButton", form) {
             @Override
             public void onSubmit(AjaxRequestTarget target){
-                resultsProvider.updateData(requestModel.getObject(), null);
-                feedbackPanel.success(successMessage);
-                target.add(resultsPanel);
+                try {
+                    resultsProvider.updateData(requestModel.getObject());
+                    feedbackPanel.success(successMessage);
+                    target.add(resultsPanel);
+                } catch (Exception e) {
+                    feedbackPanel.error(e.getMessage());
+//                    e.printStackTrace();
+                }
                 target.add(feedbackPanel);
             }
 

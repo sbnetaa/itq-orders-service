@@ -3,7 +3,6 @@ package ru.terentyev.itq_orders_service.web;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.cycle.RequestCycle;
 import ru.terentyev.itq_orders_service.entities.OrderResponseSchemaWrapper;
 import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;
 import ru.terentyev.itq_orders_service.services.OrderService;
@@ -22,14 +21,15 @@ public class OrderResponseDataProvider implements IDataProvider<OrderResponseSch
         this.orderService = orderService;
     }
 
-    public void updateData(OrderRequestSchema request, Long idToSearch){
+    public void updateData(OrderRequestSchema request){
         responsesList.clear();
 
-        if (idToSearch != null) {
-            responsesList.add(new OrderResponseSchemaWrapper(orderService.takeSingleOrder(idToSearch)));
+        if (request == null) {
+            return;
         }
 
-        if (request == null) {
+        if (request.getId() != null) {
+            responsesList.add(new OrderResponseSchemaWrapper(orderService.takeSingleOrder(request.getId())));
             return;
         }
 
@@ -43,7 +43,6 @@ public class OrderResponseDataProvider implements IDataProvider<OrderResponseSch
     @Override
     public Iterator<? extends OrderResponseSchemaWrapper> iterator(long first, long count) {
         return responsesList.subList((int) first, Math.min((int) (first + count), responsesList.size())).iterator();
-//        return responsesList.subList((int) first, (int) Math.min(first + count, responsesList.size())).iterator();
     }
 
     @Override
@@ -62,7 +61,6 @@ public class OrderResponseDataProvider implements IDataProvider<OrderResponseSch
 
     @Override
     public void detach(){
-//        super.detach();
         responsesList.clear();
     }
 }
