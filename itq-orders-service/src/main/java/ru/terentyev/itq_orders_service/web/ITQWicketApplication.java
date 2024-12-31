@@ -23,12 +23,17 @@ public class ITQWicketApplication extends WebApplication implements ApplicationC
     public void init(){
         super.init();
 
+        mount(new MountedMapper("index.html", HomePage.class));
         mount(new MountedMapper("create.html", CreateOrderPage.class));
         mount(new MountedMapper("searchWithSum.html", SearchWithSumPage.class));
+        mount(new MountedMapper("searchWithArticle.html", SearchWithArticlePage.class));
+        mount(new MountedMapper("findById.html", FindByIdPage.class));
 
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
         getRequestCycleSettings().setResponseRequestEncoding("UTF-8");
         getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
+
+        getDebugSettings().setDevelopmentUtilitiesEnabled(true);
     }
 
     @Override
