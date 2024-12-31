@@ -8,10 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@EnableWebMvc
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
 
@@ -42,7 +40,6 @@ public class AppConfig implements WebMvcConfigurer {
         registration.setName("springDispatcherServlet");
         registration.setOrder(2);
         registration.setLoadOnStartup(2);
-//        registration.addInitParameter("defaultServletName", "WicketServlet");
         return registration;
     }
 }
