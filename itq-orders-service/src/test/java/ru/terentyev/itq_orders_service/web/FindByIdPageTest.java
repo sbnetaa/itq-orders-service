@@ -2,7 +2,6 @@ package ru.terentyev.itq_orders_service.web;
 
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.html.form.NumberTextField;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.jupiter.api.Test;
 
