@@ -49,7 +49,6 @@ public abstract class BasePage extends WebPage {
                     target.add(resultsPanel);
                 } catch (Exception e) {
                     feedbackPanel.error(e.getMessage());
-//                    e.printStackTrace();
                 }
                 target.add(feedbackPanel);
             }

@@ -25,7 +25,7 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public ServletRegistrationBean<WicketServlet> wicketServlet() {
-        ServletRegistrationBean<WicketServlet> servletRegistrationBean = new ServletRegistrationBean<>(new WicketServlet(), "/ui/*"); // /ui/*
+        ServletRegistrationBean<WicketServlet> servletRegistrationBean = new ServletRegistrationBean<>(new WicketServlet(), "/ui/*");
         servletRegistrationBean.setName("WicketServlet");
         servletRegistrationBean.addInitParameter("applicationClassName", "ru.terentyev.itq_orders_service.web.ITQWicketApplication");
         servletRegistrationBean.addInitParameter(WicketFilter.FILTER_MAPPING_PARAM, "/ui/*"); // *.html
@@ -36,7 +36,7 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public ServletRegistrationBean<DispatcherServlet> springDispatcherServlet() {
-        ServletRegistrationBean<DispatcherServlet> registration = new ServletRegistrationBean<>(dispatcherServlet(), "/api*"); // /api*
+        ServletRegistrationBean<DispatcherServlet> registration = new ServletRegistrationBean<>(dispatcherServlet(), "/api*");
         registration.setName("springDispatcherServlet");
         registration.setOrder(2);
         registration.setLoadOnStartup(2);
