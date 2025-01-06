@@ -28,8 +28,8 @@ public class SearchWithSumPageTest extends BasePageTest {
         tester.assertRequired("form:date");
         formTester.submit("submitButton");
         tester.assertComponentOnAjaxResponse("form:feedbackPanel");
-        tester.assertErrorMessages("Поле 'date' обязательно для ввода.",
-                "Поле 'sum' обязательно для ввода.");
+        tester.assertErrorMessages("Поле 'sum' обязательно для ввода."
+                , "Поле 'date' обязательно для ввода.");
     }
 
     @Test

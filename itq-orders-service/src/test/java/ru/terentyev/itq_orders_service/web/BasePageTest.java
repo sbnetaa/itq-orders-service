@@ -9,6 +9,8 @@ import org.mockito.Mockito;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import ru.terentyev.itq_orders_service.services.OrderService;
 
+import java.util.Locale;
+
 public class BasePageTest extends WicketTestCase {
 
     protected OrderService orderService;
@@ -28,5 +30,6 @@ public class BasePageTest extends WicketTestCase {
             }
         });
         basePage = new BasePage(){};
+        tester.getSession().setLocale(Locale.of("ru", "RU"));
     }
 }

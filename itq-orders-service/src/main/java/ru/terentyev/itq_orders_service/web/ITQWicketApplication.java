@@ -3,11 +3,16 @@ package ru.terentyev.itq_orders_service.web;
 import org.apache.wicket.Page;
 import org.apache.wicket.core.request.mapper.MountedMapper;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.WebSession;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.Response;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+
+import java.util.Locale;
 
 @Component
 public class ITQWicketApplication extends WebApplication implements ApplicationContextAware {
@@ -32,8 +37,13 @@ public class ITQWicketApplication extends WebApplication implements ApplicationC
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
         getRequestCycleSettings().setResponseRequestEncoding("UTF-8");
         getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
+    }
 
-        getDebugSettings().setDevelopmentUtilitiesEnabled(true);
+    @Override
+    public WebSession newSession(Request request, Response response) {
+        WebSession session = (WebSession) super.newSession(request, response);
+        session.setLocale(Locale.of("ru", "RU"));
+        return session;
     }
 
     @Override

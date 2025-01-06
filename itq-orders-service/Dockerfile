@@ -5,7 +5,7 @@ WORKDIR /ready_app
 COPY pom.xml .
 COPY src ./src
 
-RUN mvn clean package -DskipTests
+RUN mvn clean package -Dspring.datasource.url=jdbc:postgresql://db-orders:5432/itq-orders-db
 
 FROM openjdk:23-jdk-slim
 WORKDIR /ready_app

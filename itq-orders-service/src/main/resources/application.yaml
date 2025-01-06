@@ -3,9 +3,10 @@ spring:
     name: itq-orders-service
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/itq-orders}
-    username: ${SPRING_DATASOURCE_USER:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    username: ${SPRING_DATASOURCE_USER:itq-user}
+    password: ${SPRING_DATASOURCE_PASSWORD:itq-password}
     driver-class-name: org.postgresql.Driver
+    initialization-mode: always
 ---
 logging:
   level:

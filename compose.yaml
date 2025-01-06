@@ -36,7 +36,7 @@ services:
       POSTGRES_USER: itq-user
       POSTGRES_PASSWORD: itq-password
     healthcheck:
-      test: [ "CMD", "pg_isready", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
+      test: [ "CMD", "pg_isready", "-d", "itq-orders-db", "-U", "itq-user" ]
       interval: 20s
       timeout: 20s
       retries: 5

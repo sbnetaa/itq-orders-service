@@ -39,8 +39,8 @@ public class SearchWithArticlePageTest extends BasePageTest {
     public void testFormSubmissionSuccess() {
         tester.startPage(SearchWithArticlePage.class);
         FormTester formTester = tester.newFormTester("form");
-        formTester.setValue("dateFrom", "05.01.2025");
-        formTester.setValue("dateTo", "05.12.2024");
+        formTester.setValue("dateFrom", "05.12.2024");
+        formTester.setValue("dateTo", "05.01.2025");
         formTester.setValue("article", "43");
         formTester.submit("submitButton");
         tester.assertNoErrorMessage();

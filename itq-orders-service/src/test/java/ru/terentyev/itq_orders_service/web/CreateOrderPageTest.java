@@ -60,8 +60,7 @@ public class CreateOrderPageTest extends BasePageTest {
                 "Поле 'address' обязательно для ввода.",
                 "Поле 'paymentType' обязательно для ввода.",
                 "Поле 'deliveryType' обязательно для ввода.",
-                "'amount' не находится между 1 и 2147483647."
-        );
+                "'amount' не находится между 1 и 2147483647.");
         tester.assertComponentOnAjaxResponse("form:feedbackPanel");
     }
 }
