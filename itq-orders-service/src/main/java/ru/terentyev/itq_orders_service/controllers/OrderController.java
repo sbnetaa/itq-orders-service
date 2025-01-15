@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,6 @@ import ru.terentyev.itq_orders_service.api.OrdersApi;
 import ru.terentyev.itq_orders_service.schemas.OrderRequestSchema;
 import ru.terentyev.itq_orders_service.schemas.OrderResponseSchema;
 import ru.terentyev.itq_orders_service.services.OrderService;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
 import ru.terentyev.itq_orders_service.utils.SwaggerExamples;
 
 import java.util.List;

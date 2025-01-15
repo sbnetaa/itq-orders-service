@@ -15,6 +15,8 @@ services:
       SPRING_DATASOURCE_HOST: numbers-service
       SPRING_DATASOURCE_USER: itq-user
       SPRING_DATASOURCE_PASSWORD: itq-password
+    volumes:
+      - ~/.m2:/root/.m2
   numbers-service:
     container_name: numbers-service-container
     build:
@@ -24,6 +26,12 @@ services:
         condition: service_healthy
     environment:
       SPRING_MONGODB_URI: mongodb://itq-user:itq-password@db-numbers:27017/itq-numbers-db?authSource=admin
+      SPRING_MONGODB_HOST: db-numbers
+      TESTCONTAINERS_ENABLED: false # Здесь true для включения
+      TESTCONTAINERS_HOST_OVERRIDE: host.docker.internal
+    volumes:
+      #- /var/run/docker.sock:/var/run/docker.sock
+      - ~/.m2:/root/.m2
     ports:
       - "8081:8081"
     networks:
@@ -52,6 +60,7 @@ services:
     ports:
       - "27017:27017"
     environment:
+      MONGO_IMAGE: "mongo:latest"
       MONGO_INITDB_ROOT_USERNAME: itq-user
       MONGO_INITDB_ROOT_PASSWORD: itq-password
       MONGO_INITDB_DATABASE: itq-numbers-db
